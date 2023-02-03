@@ -1,11 +1,9 @@
 package com.example.pocchangecover
 
 import android.Manifest
-import android.R.attr
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.CursorLoader
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -14,7 +12,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,7 +23,6 @@ import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var path: String
     private val FILE_NAME = "changeCover.jpg"
     lateinit var photoFile: File
     private val activity = this@MainActivity

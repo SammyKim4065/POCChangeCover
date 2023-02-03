@@ -1,5 +1,6 @@
 package com.example.pocchangecover;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +10,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,64 +19,65 @@ import android.widget.ImageView;
  * Custom ImageView for circular images in Android while maintaining the
  * best draw performance and supporting custom borders & selectors.
  */
+@SuppressLint("AppCompatCustomView")
 public class ZoomImageView extends ImageView implements View.OnTouchListener {
-    // For logging purposes
-    private static final String TAG = ZoomImageView.class.getSimpleName();
+	// For logging purposes
+	private static final String TAG = ZoomImageView.class.getSimpleName();
 
 
-    // these matrices will be used to move and zoom image
-    private Matrix matrix = new Matrix();
-    private Matrix savedMatrix = new Matrix();
-    // we can be in one of these 3 states
-    private static final int NONE = 0;
-    private static final int DRAG = 1;
-    private static final int ZOOM = 2;
-    private int mode = NONE;
-    // remember some things for zooming
-    private PointF start = new PointF();
-    private PointF mid = new PointF();
-    private float oldDist = 1f;
-    private float d = 0f;
-    private float newRot = 0f;
-    private float[] lastEvent = null;
-    boolean rotation = true;
-    boolean scaledown = true;
-    boolean initStatus = false;
+	// these matrices will be used to move and zoom image
+	private Matrix matrix = new Matrix();
+	private Matrix savedMatrix = new Matrix();
+	// we can be in one of these 3 states
+	private static final int NONE = 0;
+	private static final int DRAG = 1;
+	private static final int ZOOM = 2;
+	private int mode = NONE;
+	// remember some things for zooming
+	private PointF start = new PointF();
+	private PointF mid = new PointF();
+	private float oldDist = 1f;
+	private float d = 0f;
+	private float newRot = 0f;
+	private float[] lastEvent = null;
+	boolean rotation = true;
+	boolean scaledown = true;
+	boolean initStatus = false;
     float init_scale = 0;
 
-    public ZoomImageView(Context context) {
-        this(context, null, R.styleable.ZoomImageView_ZoomImageViewDefault);
-    }
+	public ZoomImageView(Context context) {
+		this(context, null, R.styleable.ZoomImageView_ZoomImageViewDefault);
+	}
 
-    public ZoomImageView(Context context, AttributeSet attrs) {
-        this(context, attrs, R.styleable.ZoomImageView_ZoomImageViewDefault);
-    }
+	public ZoomImageView(Context context, AttributeSet attrs) {
+		this(context, attrs, R.styleable.ZoomImageView_ZoomImageViewDefault);
+	}
 
-    public ZoomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
-    }
+	public ZoomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
+		init(context, attrs, defStyleAttr);
+	}
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ZoomImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs, defStyleAttr);
-    }
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public ZoomImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+		super(context, attrs, defStyleAttr, defStyleRes);
+		init(context, attrs, defStyleAttr);
+	}
 
-    /**
-     * Initializes paint objects and sets desired attributes.
-     * @param context Context
-     * @param attrs Attributes
-     * @param defStyle Default Style
-     */
-    private void init(Context context, AttributeSet attrs, int defStyle) {
+	/**
+	 * Initializes paint objects and sets desired attributes.
+	 * @param context Context
+	 * @param attrs Attributes
+	 * @param defStyle Default Style
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyle) {
         setOnTouchListener(this);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ZoomImageView, defStyle, 0);
         rotation = a.getBoolean(R.styleable.ZoomImageView_rotation, true);
         scaledown = a.getBoolean(R.styleable.ZoomImageView_scaledown, false);
         setScaleType(ScaleType.MATRIX);
         matrix = getImageMatrix();
-    }
+	}
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -99,7 +100,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener {
     }
 
     public void resetImage(){
-        if(getDrawable()!=null){
+	    if(getDrawable()!=null){
             RectF drawableRect = new RectF(0, 0, getDrawable().getIntrinsicWidth(), getDrawable().getIntrinsicHeight());
             RectF viewRect = new RectF(0, 0,  getWidth(), getHeight());
             matrix.setRectToRect(drawableRect, viewRect, Matrix.ScaleToFit.CENTER);
