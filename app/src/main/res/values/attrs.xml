@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ZoomImageView">
+        <attr name="ZoomImageViewDefault" format="reference"/>
+        <attr name="rotation" format="boolean" />
+        <attr name="scaledown" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageCutterView">
+        <attr name="ratio" format="string"/>
+        <attr name="maxScale" format="dimension"/>
+        <attr name="minScale" format="dimension"/>
+    </declare-styleable>
+</resources>
